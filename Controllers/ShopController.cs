@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ShopController : Controller
 {
@@ -17,7 +20,11 @@ public class ShopController : Controller
         };
 
         int pageSize = 8;
-        var pagedData = shops.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+        var pagedData = shops
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
 
         var model = new ShopViewModel
         {
@@ -27,5 +34,15 @@ public class ShopController : Controller
         };
 
         return View(model);
+    }
+
+    // ✅ FIXED METHOD
+    public IActionResult ShopDetails(string name, string image, string address)
+    {
+        ViewBag.ShopName = name;
+        ViewBag.ShopImage = image;
+        ViewBag.ShopAddress = address;
+
+        return View();
     }
 }

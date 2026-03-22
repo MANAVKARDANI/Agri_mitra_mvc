@@ -1,0 +1,159 @@
+﻿@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div class="bg-[#f7f7f7] min-h-screen flex items-center justify-center py-16">
+    <div class="bg-white rounded-3xl shadow-xl w-[520px] p-10">
+
+        <!-- PROFILE IMAGE -->
+        <div class="flex flex-col items-center mb-8">
+            <div class="relative">
+
+                <img id="previewImage"
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzkYu5I16QjD3rwGS-AR1eV2szNmQx_YnJv26W353TfKEeTAcuLKjf5JlALV7oRbMtUlwwvXm9S928ZXUoFt4aEHZdvMLepmCk0r0vdYRY9Ohp5QwMam0AC5YybXQmYZ2SEUv2kbyo5af42i9BQNh8MSRY43Y894gH02jWmO7OsEAonYmMrKHbVXO4IrEBTcY1YwivoAGnQfT2-E6fYlKqPCOI_oG9Ry9YjKsZguv2ISmwWN25cn4Uz7GRN0oy7hLKji30FaKXxtIq"
+                     class="w-24 h-24 rounded-full object-cover"
+                     alt="profile" />
+
+                <!-- IMAGE UPLOAD -->
+                <label class="absolute bottom-0 right-0 bg-green-700 text-white rounded-full w-7 h-7 flex items-center justify-center shadow cursor-pointer">
+                    <span class="material-symbols-outlined text-sm">edit</span>
+
+                    <input type="file"
+                           accept="image/*"
+                           class="hidden"
+                           onchange="previewImage(event)" />
+                </label>
+
+            </div>
+
+            <h2 id="displayName" class="text-xl font-bold text-gray-800 mt-4">
+                Hirva Togadiya
+            </h2>
+
+            <p id="displayEmail" class="text-gray-500 text-sm">
+                hirva203@gmail.com
+            </p>
+        </div>
+
+        <!-- FORM -->
+        <form method="post" class="space-y-6">
+
+            <!-- FULL NAME -->
+            <div>
+                <label class="text-sm text-gray-600 font-medium">
+                    Full Name
+                </label>
+
+                <input type="text"
+                       name="Name"
+                       id="nameInput"
+                       value="Hirva Togadiya"
+                       class="w-full mt-2 bg-gray-100 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-700" />
+            </div>
+
+            <!-- EMAIL -->
+            <div>
+                <label class="text-sm text-gray-600 font-medium">
+                    Email Address
+                </label>
+
+                <input type="email"
+                       name="Email"
+                       id="emailInput"
+                       value="hirva203@gmail.com"
+                       class="w-full mt-2 bg-gray-100 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-700" />
+            </div>
+
+            <!-- CURRENT PASSWORD -->
+            <div>
+                <label class="text-sm text-gray-600 font-medium">
+                    Current Password
+                </label>
+
+                <div class="relative">
+                    <input type="password"
+                           id="currentPassword"
+                           placeholder="Your Current Password"
+                           class="w-full mt-2 bg-gray-100 rounded-lg px-4 py-3 pr-10 outline-none focus:ring-2 focus:ring-green-700" />
+
+                    <span onclick="togglePassword('currentPassword', this)"
+                          class="material-symbols-outlined absolute right-3 top-5 text-gray-400 cursor-pointer">
+                        visibility_off
+                    </span>
+                </div>
+            </div>
+
+            <!-- NEW PASSWORD -->
+            <div>
+                <label class="text-sm text-gray-600 font-medium">
+                    New Password
+                </label>
+
+                <div class="relative">
+                    <input type="password"
+                           id="newPassword"
+                           placeholder="Your New Password"
+                           class="w-full mt-2 bg-gray-100 rounded-lg px-4 py-3 pr-10 outline-none focus:ring-2 focus:ring-green-700" />
+
+                    <span onclick="togglePassword('newPassword', this)"
+                          class="material-symbols-outlined absolute right-3 top-5 text-gray-400 cursor-pointer">
+                        visibility_off
+                    </span>
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="flex gap-4 pt-4">
+
+                <button type="submit"
+                        class="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-lg shadow-md font-semibold transition w-1/2">
+                    Save Changes
+                </button>
+
+                <a href="/Account/Profile"
+                   class="border border-gray-300 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition w-1/2 text-center">
+                    Cancel
+                </a>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        const reader = new FileReader();
+
+        reader.onload = function () {
+            document.getElementById('previewImage').src = reader.result;
+        };
+
+        if (input.files[0]) {
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function togglePassword(fieldId, icon) {
+        const input = document.getElementById(fieldId);
+
+        if (input.type === "password") {
+            input.type = "text";
+            icon.innerText = "visibility";
+        } else {
+            input.type = "password";
+            icon.innerText = "visibility_off";
+        }
+    }
+
+    // Live update name/email preview
+    document.getElementById("nameInput").addEventListener("input", function () {
+        document.getElementById("displayName").innerText = this.value;
+    });
+
+    document.getElementById("emailInput").addEventListener("input", function () {
+        document.getElementById("displayEmail").innerText = this.value;
+    });
+</script>

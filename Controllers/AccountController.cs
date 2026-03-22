@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 public class AccountController : Controller
 {
@@ -15,7 +16,7 @@ public class AccountController : Controller
         {
             string adminEmail = "admin@gmail.com";
 
-            // ✅ STORE SESSION (IMPORTANT)
+            // STORE SESSION
             HttpContext.Session.SetString("UserEmail", model.Email);
             HttpContext.Session.SetString("UserRole", model.Role);
 
@@ -75,10 +76,39 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult Logout()
     {
-        // ✅ CLEAR SESSION
         HttpContext.Session.Clear();
-
-        // ✅ REDIRECT TO LOGIN
         return RedirectToAction("Login", "Account");
+    }
+
+    // ================= PROFILE =================
+    public IActionResult Profile()
+    {
+        // Get from session
+        ViewBag.Name = HttpContext.Session.GetString("UserEmail") ?? "User";
+        ViewBag.Email = HttpContext.Session.GetString("UserEmail") ?? "user@gmail.com";
+
+        return View();
+    }
+
+    // ================= EDIT PROFILE (GET) =================
+    [HttpGet]
+    public IActionResult EditProfile()
+    {
+        ViewBag.Name = HttpContext.Session.GetString("UserEmail") ?? "User";
+        ViewBag.Email = HttpContext.Session.GetString("UserEmail") ?? "user@gmail.com";
+
+        return View();
+    }
+
+    // ================= EDIT PROFILE (POST) =================
+    [HttpPost]
+    public IActionResult EditProfile(string Name, string Email)
+    {
+        // Save updated data (for now session only)
+        HttpContext.Session.SetString("UserEmail", Email);
+
+        TempData["Success"] = "Profile updated successfully!";
+
+        return RedirectToAction("Profile");
     }
 }
