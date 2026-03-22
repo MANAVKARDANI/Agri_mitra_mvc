@@ -12,10 +12,13 @@ builder.Services.AddControllersWithViews();
 // ✅ Add Session
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // session timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// (Optional but recommended)
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -33,23 +36,38 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ✅ Enable Session (IMPORTANT - before Authorization)
+// ✅ Session MUST come before Authorization
 app.UseSession();
 
 app.UseAuthorization();
 
 // ================= ROUTING =================
 
-// ✅ DEFAULT ROUTE (Login page first)
+// ✅ Default route (Login first)
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}"
+);
 
-// ✅ OPTIONAL: FIX FOR /Shop/Details/{id}
+// ✅ Shop Details Route (SEO friendly)
 app.MapControllerRoute(
     name: "shopDetails",
-    pattern: "Shop/Details/{id}",
+    pattern: "shop/{id}",
     defaults: new { controller = "Shop", action = "Details" }
+);
+
+// ✅ Product Details Route (Fix 404)
+app.MapControllerRoute(
+    name: "productDetails",
+    pattern: "product/details",
+    defaults: new { controller = "Shop", action = "ProductDetails" }
+);
+
+// ✅ Billing Route
+app.MapControllerRoute(
+    name: "billing",
+    pattern: "billing",
+    defaults: new { controller = "Shop", action = "Billing" }
 );
 
 app.Run();

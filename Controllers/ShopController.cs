@@ -3,58 +3,84 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ShopController : Controller
+namespace YourProjectName.Controllers   // 🔁 Replace with your project namespace
 {
-    // ================= SHOP LIST =================
-    public IActionResult Index(int page = 1)
+    public class ShopController : Controller
     {
-        var shops = GetShops();
-
-        int pageSize = 8;
-
-        var pagedData = shops
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        var model = new ShopViewModel
+        // ================= SHOP LIST =================
+        public IActionResult Index(int page = 1)
         {
-            Shops = pagedData,
-            CurrentPage = page,
-            TotalPages = (int)Math.Ceiling(shops.Count / (double)pageSize)
-        };
+            var shops = GetShops();
 
-        return View(model);
-    }
+            int pageSize = 8;
 
-    // ================= SHOP DETAILS =================
-    public IActionResult Details(string id)
-    {
-        var shop = GetShops().FirstOrDefault(s => s.Id == id);
+            var pagedData = shops
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
 
-        if (shop == null)
-            return NotFound();
+            var model = new ShopViewModel
+            {
+                Shops = pagedData,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(shops.Count / (double)pageSize)
+            };
 
-        ViewBag.ShopName = shop.Name;
-        ViewBag.ShopImage = shop.Image;
-        ViewBag.ShopAddress = shop.Address;
+            return View(model);
+        }
 
-        return View("ShopDetails");
-    }
-
-    // ================= STATIC DATA =================
-    private List<Shop> GetShops()
-    {
-        return new List<Shop>
+        // ================= SHOP DETAILS =================
+        // URL: /Shop/Details/farma-fer
+        public IActionResult Details(string id)
         {
-            new Shop { Id="farma-fer", Name="Farma Fer", Image="/images/Farma Fer.png", Address="124 Agri Lane", Verified=true },
-            new Shop { Id="valley-fertilizers", Name="Valley Fertilizers", Image="/images/Valley Fertilizers.png", Address="88 Farm Road", Verified=true },
-            new Shop { Id="eco-crop", Name="EcoCrop Solutions", Image="/images/EcoCrop Solutions.png", Address="45 Sustainable Way", Verified=true },
-            new Shop { Id="growers-choice", Name="Growers Choice", Image="/images/Growers Choice.png", Address="22 Plantation Drive", Verified=false },
-            new Shop { Id="natures-best", Name="Nature's Best Agri", Image="/images/Nature's Best Agri.png", Address="78 Organic Blvd", Verified=false },
-            new Shop { Id="modern-farmer", Name="Modern Farmer Supply", Image="/images/Modern Farmer Supply.png", Address="101 Innovation Road", Verified=true },
-            new Shop { Id="plant-power", Name="Plant Power Store", Image="/images/Plant Power Store.png", Address="33 Green Avenue", Verified=false },
-            new Shop { Id="root-shoot", Name="Root & Shoot Suppliers", Image="/images/Root & Shoot Suppliers.png", Address="56 Growth Street", Verified=false }
-        };
+            var shop = GetShops().FirstOrDefault(s => s.Id == id);
+
+            if (shop == null)
+                return NotFound();
+
+            ViewBag.ShopName = shop.Name;
+            ViewBag.ShopImage = shop.Image;
+            ViewBag.ShopAddress = shop.Address;
+
+            return View("ShopDetails"); // must match file name
+        }
+
+        // ================= PRODUCT DETAILS =================
+        // URL: /Shop/ProductDetails
+        public IActionResult ProductDetails(string name, int price, int qty)
+        {
+            ViewBag.Name = name ?? "Potash";
+            ViewBag.Price = price == 0 ? 499 : price;
+            ViewBag.Quantity = qty == 0 ? 1 : qty;
+
+            return View();
+        }
+
+        // ================= BILLING =================
+        // URL: /Shop/Billing?name=Potash&price=499&qty=1
+        public IActionResult Billing(string name, int price, int qty)
+        {
+            ViewBag.Name = name ?? "Potash";
+            ViewBag.Price = price == 0 ? 499 : price;
+            ViewBag.Quantity = qty == 0 ? 1 : qty;
+
+            return View();
+        }
+
+        // ================= STATIC DATA =================
+        private List<Shop> GetShops()
+        {
+            return new List<Shop>
+            {
+                new Shop { Id="farma-fer", Name="Farma Fer", Image="/images/Farma Fer.png", Address="124 Agri Lane", Verified=true },
+                new Shop { Id="valley-fertilizers", Name="Valley Fertilizers", Image="/images/Valley Fertilizers.png", Address="88 Farm Road", Verified=true },
+                new Shop { Id="eco-crop", Name="EcoCrop Solutions", Image="/images/EcoCrop Solutions.png", Address="45 Sustainable Way", Verified=true },
+                new Shop { Id="growers-choice", Name="Growers Choice", Image="/images/Growers Choice.png", Address="22 Plantation Drive", Verified=false },
+                new Shop { Id="natures-best", Name="Nature's Best Agri", Image="/images/Nature's Best Agri.png", Address="78 Organic Blvd", Verified=false },
+                new Shop { Id="modern-farmer", Name="Modern Farmer Supply", Image="/images/Modern Farmer Supply.png", Address="101 Innovation Road", Verified=true },
+                new Shop { Id="plant-power", Name="Plant Power Store", Image="/images/Plant Power Store.png", Address="33 Green Avenue", Verified=false },
+                new Shop { Id="root-shoot", Name="Root & Shoot Suppliers", Image="/images/Root & Shoot Suppliers.png", Address="56 Growth Street", Verified=false }
+            };
+        }
     }
 }

@@ -1,0 +1,191 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="p-8 bg-[#f4f7f6] min-h-screen">
+
+    <!-- HEADER -->
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-gray-800">Add New Shop</h1>
+        <p class="text-gray-500 text-sm">
+            Expand the Fertilizer360 network by adding a new outlet.
+        </p>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div id="messageBox"
+         class="hidden mb-4 px-4 py-2 rounded-lg bg-green-100 text-green-700 text-sm shadow">
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="bg-white rounded-3xl shadow-sm p-8 max-w-4xl">
+
+        <!-- TITLE -->
+        <div class="flex items-center gap-3 mb-6">
+            <div class="bg-green-100 p-3 rounded-xl">
+                🏪
+            </div>
+
+            <div>
+                <h2 class="font-semibold text-lg text-gray-800">
+                    Shop Details
+                </h2>
+                <p class="text-sm text-gray-500">
+                    Enter the official information for the new fertilizer shop.
+                </p>
+            </div>
+        </div>
+
+        <!-- INPUT GRID -->
+        <div class="grid grid-cols-2 gap-5">
+
+            <div class="flex items-center bg-gray-100 rounded-xl px-3">
+                <span class="text-gray-400">🏪</span>
+                <input id="name"
+                       placeholder="e.g. Green Agro"
+                       class="bg-transparent p-3 w-full outline-none" />
+            </div>
+
+            <div class="flex items-center bg-gray-100 rounded-xl px-3">
+                <span class="text-gray-400">📍</span>
+                <input id="location"
+                       placeholder="e.g. Maharashtra, India"
+                       class="bg-transparent p-3 w-full outline-none" />
+            </div>
+
+            <div class="flex items-center bg-gray-100 rounded-xl px-3">
+                <span class="text-gray-400">📞</span>
+                <input id="phone"
+                       placeholder="e.g. +91 9870543210"
+                       class="bg-transparent p-3 w-full outline-none" />
+            </div>
+
+            <div class="flex items-center bg-gray-100 rounded-xl px-3">
+                <span class="text-gray-400">⏰</span>
+                <input id="hours"
+                       placeholder="e.g. 9 AM - 6 PM"
+                       class="bg-transparent p-3 w-full outline-none" />
+            </div>
+
+        </div>
+
+        <!-- ADDRESS -->
+        <textarea id="address"
+                  placeholder="Enter full street address..."
+                  class="bg-gray-100 p-4 rounded-xl w-full mt-5 outline-none"></textarea>
+
+        <!-- BUTTONS -->
+        <div class="flex justify-end gap-4 mt-6">
+
+            <a href="/Admin/Shops"
+               class="px-6 py-2 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-100">
+                CANCEL
+            </a>
+
+            <button onclick="addShop()"
+                    class="bg-green-700 text-white px-8 py-2 rounded-xl hover:bg-green-800 shadow">
+                ADD SHOP
+            </button>
+
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="mt-10 bg-white rounded-3xl shadow-sm p-6">
+
+        <h3 class="font-semibold text-gray-800 mb-6">
+            Recently Added Shops
+        </h3>
+
+        <table class="w-full text-sm">
+            <thead class="text-gray-400 border-b">
+                <tr>
+                    <th class="text-left py-3">SHOP NAME</th>
+                    <th class="text-center">LOCATION</th>
+                    <th class="text-center">CONTACT NUMBER</th>
+                    <th class="text-center">BUSINESS HOURS</th>
+                    <th class="text-center">ACTIONS</th>
+                </tr>
+            </thead>
+
+            <tbody id="shopTable">
+
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-4 flex items-center gap-3">
+                        <div class="bg-green-100 p-2 rounded-lg">🌿</div>
+                        <span class="font-medium text-gray-700">Green Agro</span>
+                    </td>
+                    <td class="text-center text-gray-600">India</td>
+                    <td class="text-center text-gray-600">+91 9870543210</td>
+                    <td class="text-center">
+                        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs">
+                            9 AM - 6 PM
+                        </span>
+                    </td>
+                    <td class="text-center">✏️ 🗑️</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+
+    function showMessage(msg) {
+        let box = document.getElementById("messageBox");
+        box.innerText = msg;
+        box.classList.remove("hidden");
+
+        setTimeout(() => {
+            box.classList.add("hidden");
+        }, 3000);
+    }
+
+    function addShop() {
+
+        let name = document.getElementById("name").value;
+        let location = document.getElementById("location").value;
+        let phone = document.getElementById("phone").value;
+        let hours = document.getElementById("hours").value;
+
+        if (!name || !location) {
+            showMessage("⚠️ Please fill required fields");
+            return;
+        }
+
+        let table = document.getElementById("shopTable");
+
+        let row = `
+            <tr class="border-b hover:bg-gray-50">
+                <td class="py-4 flex items-center gap-3">
+                    <div class="bg-green-100 p-2 rounded-lg">🌿</div>
+                    <span class="font-medium text-gray-700">${name}</span>
+                </td>
+                <td class="text-center text-gray-600">${location}</td>
+                <td class="text-center text-gray-600">${phone}</td>
+                <td class="text-center">
+                    <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs">
+                        ${hours}
+                    </span>
+                </td>
+                <td class="text-center">✏️ 🗑️</td>
+            </tr>
+        `;
+
+        table.innerHTML += row;
+
+        showMessage("✅ Shop added successfully!");
+
+        // Reset form
+        document.getElementById("name").value = "";
+        document.getElementById("location").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("hours").value = "";
+        document.getElementById("address").value = "";
+    }
+
+</script>
