@@ -7,49 +7,81 @@
 <html>
 <head>
     <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-200 min-h-screen flex items-center justify-center p-6">
 
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-6xl flex overflow-hidden">
 
+        <!-- LEFT -->
         <div class="w-full md:w-1/2 p-10 lg:p-14">
 
-            <h1 class="text-2xl font-bold">AGRI-MITRA</h1>
+            <h1 class="text-2xl font-bold text-gray-800">AGRI-MITRA</h1>
 
-            <h2 class="text-xl mt-10 font-semibold">Welcome back!</h2>
+            <p class="text-xs text-gray-500 mt-1">
+                KNOW BEFORE YOU GO: REAL-TIME FERTILIZER STOCK ALERTS.
+            </p>
 
-            <form method="post" class="space-y-6">
+            <h2 class="text-xl font-semibold mt-10 text-gray-800">
+                Welcome back!
+            </h2>
 
-                <select name="Role" class="w-full p-3 border rounded-lg bg-gray-100">
-                    <option value="">Select Role</option>
-                    <option>Admin</option>
-                    <option>Supplier</option>
-                    <option>User</option>
-                </select>
+            <p class="text-sm text-gray-500 mb-8">
+                Enter your Credentials to access your account
+            </p>
 
-                <input type="email" name="Email" placeholder="Email" class="w-full p-3 border rounded-lg bg-gray-100" />
+            <form method="post" asp-action="Login" class="space-y-6">
 
-                <input type="password" name="Password" placeholder="Password" class="w-full p-3 border rounded-lg bg-gray-100" />
+                <div>
+                    <label class="text-sm text-gray-600">Role</label>
+                    <select name="Role"
+                            class="w-full mt-1 p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-600">
+                        <option value="">Select Role</option>
+                        <option>Admin</option>
+                        <option>Supplier</option>
+                        <option>User</option>
+                    </select>
+                </div>
 
-                @if (ViewBag.Error != null)
-                {
-                    <p class="text-red-500">@ViewBag.Error</p>
-                }
+                <div>
+                    <label class="text-sm text-gray-600">Email address</label>
+                    <input name="Email" type="email"
+                           class="w-full mt-1 p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-600" />
+                </div>
 
-                <button class="w-full bg-green-800 text-white py-3 rounded-full">Login</button>
+                <div>
+                    <label class="text-sm text-gray-600">Password</label>
+                    <input name="Password" type="password"
+                           class="w-full mt-1 p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-600" />
+
+                    <div class="text-right mt-2">
+                        <a href="/Account/ForgotPassword"
+                           class="text-xs text-blue-500 hover:underline">
+                            Forgot Password?
+                        </a>
+                    </div>
+                </div>
+
+                <button class="w-full bg-green-800 hover:bg-green-900 text-white py-3 rounded-full font-semibold">
+                    Login
+                </button>
 
             </form>
 
-            <p class="text-center mt-4">
-                <a href="/Account/Register">Sign Up</a>
+            <div class="text-center text-sm text-gray-400 my-6">Or</div>
+
+            <p class="text-center text-sm text-gray-500">
+                Don’t have an account?
+                <a href="/Account/Register" class="text-blue-600 font-medium ml-1">Sign Up</a>
             </p>
 
-            <p class="text-center">
-                <a href="/Account/ForgotPassword">Forgot Password?</a>
-            </p>
+        </div>
 
+        <!-- RIGHT IMAGE -->
+        <div class="hidden md:block md:w-1/2">
+            <img src="~/images/login.png"
+                 class="h-full w-full object-cover" />
         </div>
 
     </div>

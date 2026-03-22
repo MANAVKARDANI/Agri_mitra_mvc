@@ -3,47 +3,152 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Agri_mitra</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Agri_mitra.styles.css" asp-append-version="true" />
+
+    <title>@ViewData["Title"] - AGRI-MITRA</title>
+
+    <!-- ✅ Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Agri_mitra</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+<body class="bg-white text-gray-800 min-h-screen flex flex-col">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="bg-gray-100 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+
+                <!-- LOGO -->
+                <div class="flex items-center gap-2">
+                    <span class="text-green-800 font-bold text-xl tracking-tight">
+                        AGRI-MITRA
+                    </span>
+                </div>
+
+                <!-- MENU -->
+                <div class="hidden md:flex items-center space-x-10 text-sm font-semibold tracking-wide">
+
+                    <a href="/Home/Index"
+                       class="text-gray-500 hover:text-green-800 transition">
+                        HOME
+                    </a>
+
+                    <a href="/Shop/Index"
+                       class="text-gray-500 hover:text-green-800 transition">
+                        SHOP
+                    </a>
+
+                    <a href="/Home/About"
+                       class="text-gray-500 hover:text-green-800 transition">
+                        ABOUT
+                    </a>
+
+                    <a href="/Home/Contact"
+                       class="text-gray-500 hover:text-green-800 transition">
+                        CONTACT
+                    </a>
+
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="flex items-center gap-6 text-gray-600">
+
+                    <!-- SEARCH -->
+                    <a href="/Shop/Index">
+                        <button class="hover:text-green-800 transition">🔍</button>
+                    </a>
+
+                    <!-- PROFILE -->
+                    <a href="/Account/Profile"
+                       class="flex items-center gap-2 text-green-800 font-bold text-sm">
+                        <span class="material-symbols-outlined">
+                            account_circle
+                        </span>
+                        My Account
+                    </a>
+
+                    <!-- LOGOUT -->
+                    <form method="post" asp-controller="Account" asp-action="Logout">
+                        <button type="submit"
+                                class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition shadow-sm">
+                            <span class="material-symbols-outlined text-base">
+                                logout
+                            </span>
+                            Logout
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= PAGE CONTENT ================= -->
+    <main class="flex-grow">
+        @RenderBody()
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-gray-100 border-t border-gray-200 pt-20 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="grid md:grid-cols-3 gap-16">
+
+                <!-- BRAND -->
+                <div>
+                    <h3 class="text-green-800 font-bold text-xl mb-4">
+                        AGRI-MITRA
+                    </h3>
+
+                    <p class="text-gray-500 text-sm leading-relaxed max-w-sm">
+                        Empowering modern agriculture through technology,
+                        accessibility, and sustainable practices.
+                    </p>
+                </div>
+
+                <!-- NAVIGATION -->
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-6">Navigation</h4>
+
+                    <ul class="space-y-4 text-sm">
+
+                        <li><a href="/Home/About" class="text-gray-500 hover:text-green-700">About Us</a></li>
+                        <li><a href="/Shop/Index" class="text-gray-500 hover:text-green-700">Shop</a></li>
+                        <li><a href="/Home/Privacy" class="text-gray-500 hover:text-green-700">Privacy Policy</a></li>
+                        <li><a href="/Home/Terms" class="text-gray-500 hover:text-green-700">Terms</a></li>
+
                     </ul>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Agri_mitra - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <!-- CONTACT -->
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-6">Contact</h4>
+
+                    <ul class="space-y-4 text-sm text-gray-500">
+                        <li>📍 Rajkot, Gujarat 360001</li>
+                        <li>✉ agrimitra@gmail.com</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- BOTTOM -->
+            <div class="border-t border-gray-200 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+
+                <p>© 2026 AGRI-MITRA. All rights reserved.</p>
+
+                <div class="flex gap-8 mt-4 md:mt-0">
+                    <a href="/Home/Sitemap" class="hover:text-green-700">Sitemap</a>
+                    <a href="/Home/Cookies" class="hover:text-green-700">Cookies</a>
+                </div>
+
+            </div>
+
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
