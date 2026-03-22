@@ -26,4 +26,14 @@ public class AdminController : Controller
     {
         return View();
     }
+
+    public IActionResult Orders()
+    {
+        return View();
+    }
+
+    public IActionResult AdminProfile()
+    {
+        return View();
+    }
 }
