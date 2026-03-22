@@ -12,4 +12,22 @@ public class AdminController : Controller
     {
         return View();
     }
+
+
+
+    public IActionResult AddShop()
+    {
+        return View();
+    }
+
+
+    public IActionResult Fertilizers()
+    {
+        return View();
+    }
+
+    public IActionResult AddFertilizer()
+    {
+        return View();
+    }
 }
