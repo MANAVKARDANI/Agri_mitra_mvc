@@ -1,9 +1,6 @@
-﻿@model HomeViewModel
-@{
+﻿@{
     ViewData["Title"] = "Home";
 }
-
-<script src="https://cdn.tailwindcss.com"></script>
 
 <div class="bg-white text-gray-800">
 
@@ -17,27 +14,28 @@
         <div class="relative max-w-7xl mx-auto px-6 w-full">
             <div class="max-w-xl bg-white/40 backdrop-blur-xl p-10 rounded-3xl shadow-2xl">
 
-                <span class="bg-green-100 text-green-800 text-xs px-4 py-1 rounded-full">
+                <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-4 py-1 rounded-full uppercase tracking-widest">
                     Real-time Stock Alerts
                 </span>
 
-                <h1 class="text-5xl font-extrabold text-green-900 mt-6">
+                <h1 class="text-5xl font-extrabold text-green-900 mt-6 leading-tight">
                     Smart Farming <br />
                     <span class="text-gray-700 font-light">Redefined.</span>
                 </h1>
 
                 <p class="mt-6 text-gray-600">
-                    Access premium fertilizers and real-time inventory data.
+                    Access premium fertilizers and real-time inventory data from
+                    modern greenhouses to your local shop.
                 </p>
 
                 <div class="mt-8 flex gap-4">
                     <a href="/Shop/Index"
-                       class="bg-green-800 text-white px-6 py-3 rounded-lg">
+                       class="bg-green-800 hover:bg-green-900 text-white px-6 py-3 rounded-lg font-semibold transition hover:scale-105">
                         Explore Products
                     </a>
 
                     <a href="/Shop/Index"
-                       class="border px-6 py-3 rounded-lg text-green-800">
+                       class="bg-white border border-gray-300 px-6 py-3 rounded-lg font-semibold text-green-800 hover:bg-gray-50 transition hover:scale-105">
                         Locate Shops
                     </a>
                 </div>
@@ -46,53 +44,194 @@
         </div>
     </section>
 
+    <!-- PRECISION -->
+    <section class="py-24 bg-white text-center">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-2xl text-green-800 font-medium">
+                Precision & Growth
+            </h2>
+
+            <div class="w-px h-16 bg-green-800 mx-auto my-6"></div>
+
+            <p class="text-gray-600 text-lg">
+                We bridge the gap between advanced agricultural science and
+                accessible farming resources. Our platform ensures you find the
+                exact nutrient balance for your crops, exactly when you need it.
+            </p>
+        </div>
+    </section>
+
     <!-- PRODUCTS -->
     <section class="py-24 bg-gray-50">
         <div class="max-w-7xl mx-auto px-6">
 
-            <h2 class="text-4xl font-bold mb-10">Essential Nutrients</h2>
+            <div class="flex justify-between mb-16">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900">
+                        Essential Nutrients
+                    </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <p class="text-gray-500 mt-3 text-lg">
+                        Curated selection for optimal yield.
+                    </p>
+                </div>
 
-                @foreach (var item in Model.Products)
-                {
-                    <div class="bg-[#F4F4F1] rounded-[40px] p-10 text-center">
+                <a href="/Shop/Index"
+                   class="text-green-700 font-semibold hover:underline">
+                    View full catalog →
+                </a>
+            </div>
 
-                        <img src="@item.Image" class="h-64 mx-auto mb-6" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
 
-                        <h3 class="text-2xl font-bold">@item.Title</h3>
-                        <p class="text-gray-500">@item.Description</p>
-
+                <!-- CARD 1 -->
+                <div class="relative bg-[#F4F4F1] rounded-[40px] p-10 overflow-hidden group hover:shadow-xl transition">
+                    <div class="absolute inset-0 opacity-10">
+                        <img src="~/images/Homebg.png" class="w-full h-full object-cover" />
                     </div>
-                }
+
+                    <div class="relative flex justify-center mb-12">
+                        <img src="~/images/nitrogen.png" class="h-64 object-contain group-hover:scale-105 transition" />
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-gray-800 mt-4">Nitrogen Series</h3>
+                    <p class="text-gray-500 mt-4 text-lg">Rapid vegetative growth.</p>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="relative bg-[#F4F4F1] rounded-[40px] p-10 overflow-hidden group hover:shadow-xl transition">
+                    <div class="absolute inset-0 opacity-10">
+                        <img src="~/images/Homebg.png" class="w-full h-full object-cover" />
+                    </div>
+
+                    <div class="relative flex justify-center mb-12">
+                        <img src="~/images/Phosphorus.png" class="h-64 object-contain group-hover:scale-105 transition" />
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-gray-800 mt-4">Phosphorus Boost</h3>
+                    <p class="text-gray-500 mt-4 text-lg">Robust root systems.</p>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="relative bg-[#F4F4F1] rounded-[40px] p-10 overflow-hidden group hover:shadow-xl transition">
+                    <div class="absolute inset-0 opacity-10">
+                        <img src="~/images/Homebg.png" class="w-full h-full object-cover" />
+                    </div>
+
+                    <div class="relative flex justify-center mb-12">
+                        <img src="~/images/Potassium.png" class="h-64 object-contain group-hover:scale-105 transition" />
+                    </div>
+
+                    <h3 class="text-3xl font-bold text-gray-800 mt-4">Potassium Shield</h3>
+                    <p class="text-gray-500 mt-4 text-lg">Disease resistance.</p>
+                </div>
 
             </div>
         </div>
     </section>
 
-    <!-- FEATURED -->
-    <section class="py-24 bg-[#F5F5F5]">
-        <div class="max-w-7xl mx-auto px-6 text-center">
+    <!-- LOCATE SUPPLIERS -->
+    <section class="py-24 bg-white relative overflow-hidden">
 
-            <h2 class="text-3xl font-bold">Featured Selection</h2>
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gray-50 skew-x-12 translate-x-20"></div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-14">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
 
-                @foreach (var item in Model.FeaturedProducts)
-                {
-                    <div class="bg-white p-6 rounded-xl shadow">
+            <div class="flex flex-col lg:flex-row gap-20 items-center">
 
-                        <img src="@item.Image" class="h-20 mx-auto" />
+                <!-- LEFT IMAGES -->
+                <div class="lg:w-1/2 grid grid-cols-2 gap-6">
 
-                        <h3 class="mt-4 font-semibold">@item.Name</h3>
-                        <p class="text-sm text-gray-400">@item.Description</p>
+                    <div class="space-y-6 mt-12">
+                        <img src="~/images/lab.png" class="rounded-2xl h-64 object-cover hover:scale-105 transition" />
+                        <img src="~/images/store.png" class="rounded-2xl h-48 object-cover hover:scale-105 transition" />
+                    </div>
+
+                    <div class="space-y-6">
+                        <img src="~/images/scientist.png" class="rounded-2xl h-48 object-cover hover:scale-105 transition" />
+                        <img src="~/images/tablet.png" class="rounded-2xl h-64 object-cover hover:scale-105 transition" />
+                    </div>
+
+                </div>
+
+                <!-- RIGHT TEXT -->
+                <div class="lg:w-1/2">
+
+                    <span class="text-green-600 font-bold uppercase text-xs">
+                        The 360 Network
+                    </span>
+
+                    <h2 class="text-5xl font-bold mt-6">
+                        50+ Certified <br /> Smart Hubs
+                    </h2>
+
+                    <p class="text-gray-500 mt-6 text-lg">
+                        Access our network of verified clean-storage facilities.
+                    </p>
+
+                    <!-- FEATURES -->
+                    <div class="mt-8 space-y-4">
+
+                        <div class="flex gap-4 bg-gray-50 p-4 rounded-xl">
+                            <span class="material-symbols-outlined text-green-600">inventory_2</span>
+                            <div>
+                                <h4 class="font-bold">Live Stock Monitoring</h4>
+                                <p class="text-sm text-gray-500">Updates every 15 minutes</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 bg-gray-50 p-4 rounded-xl">
+                            <span class="material-symbols-outlined text-green-600">verified_user</span>
+                            <div>
+                                <h4 class="font-bold">Quality Assurance</h4>
+                                <p class="text-sm text-gray-500">ISO certified storage</p>
+                            </div>
+                        </div>
 
                     </div>
-                }
 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED -->
+    <section class="py-24 bg-[#F5F5F5] text-center">
+
+        <p class="text-green-700 text-xs tracking-[0.25em] uppercase">
+            Curated For You
+        </p>
+
+        <h2 class="text-3xl font-bold mt-3">Featured Selection</h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-14 max-w-7xl mx-auto px-6">
+
+            <div class="bg-white p-6 rounded-xl shadow">
+                <img src="~/images/Bio dap.png" class="h-20 mx-auto" />
+                <h3 class="mt-4 font-semibold">Bio DAP</h3>
+                <p class="text-sm text-gray-400">Organic Compound</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow">
+                <img src="~/images/potash.png" class="h-20 mx-auto" />
+                <h3 class="mt-4 font-semibold">Potash</h3>
+                <p class="text-sm text-gray-400">Potassium Rich</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow">
+                <img src="~/images/UREA.png" class="h-20 mx-auto" />
+                <h3 class="mt-4 font-semibold">Urea</h3>
+                <p class="text-sm text-gray-400">High Nitrogen</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow">
+                <img src="~/images/Calcium Nitrate.png" class="h-20 mx-auto" />
+                <h3 class="mt-4 font-semibold">Calcium Nitrate</h3>
+                <p class="text-sm text-gray-400">Soluble Grade</p>
             </div>
 
         </div>
+
     </section>
 
 </div>
