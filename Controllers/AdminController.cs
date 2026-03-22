@@ -7,19 +7,15 @@ public class AdminController : Controller
         return View();
     }
 
-
     public IActionResult Shops()
     {
         return View();
     }
 
-
-
     public IActionResult AddShop()
     {
         return View();
     }
-
 
     public IActionResult Fertilizers()
     {

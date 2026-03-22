@@ -8,14 +8,13 @@
     <div class="flex justify-between items-center">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">All Fertilizers</h1>
-
             <p class="text-sm text-gray-500">
                 Manage and track your agricultural supply stock across all suppliers.
             </p>
         </div>
 
-        <a href="/Admin/AddFertilizer"
-           class="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm">
+        <a asp-action="AddFertilizer" asp-controller="Admin"
+           class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm">
             ➕ Add New Fertilizer
         </a>
     </div>
@@ -24,67 +23,19 @@
     <div class="grid md:grid-cols-3 gap-6">
 
         <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <div class="flex justify-between mb-4">
-                <p class="text-sm text-gray-500">Total Stock</p>
-                🌿
-            </div>
-
-            <h2 class="text-2xl font-bold">
-                350 <span class="text-gray-400 text-sm">Units</span>
-            </h2>
-
-            <p class="text-green-600 text-xs mt-2">+12% from last month</p>
+            <p class="text-sm text-gray-500">Total Stock</p>
+            <h2 class="text-2xl font-bold">350 Units</h2>
+            <p class="text-green-600 text-xs mt-2">+12%</p>
         </div>
 
         <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <div class="flex justify-between mb-4">
-                <p class="text-sm text-gray-500">Low Stock Alert</p>
-                ⚠️
-            </div>
-
-            <h2 class="text-2xl font-bold">
-                2 <span class="text-gray-400 text-sm">Items</span>
-            </h2>
-
-            <p class="text-xs text-gray-400 mt-2">
-                Requires immediate reorder
-            </p>
+            <p class="text-sm text-gray-500">Low Stock</p>
+            <h2 class="text-2xl font-bold">2 Items</h2>
         </div>
 
         <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <div class="flex justify-between mb-4">
-                <p class="text-sm text-gray-500">Active Suppliers</p>
-                🚚
-            </div>
-
-            <h2 class="text-2xl font-bold">
-                12 <span class="text-gray-400 text-sm">Partners</span>
-            </h2>
-
-            <p class="text-xs text-gray-400 mt-2">
-                Across 3 regional hubs
-            </p>
-        </div>
-
-    </div>
-
-    <!-- SEARCH -->
-    <div class="bg-white border rounded-xl p-4 flex justify-between items-center">
-
-        <div class="flex items-center gap-3 w-1/2">
-            🔍
-            <input placeholder="Search fertilizers, brands, or types..."
-                   class="outline-none w-full text-sm" />
-        </div>
-
-        <div class="flex gap-3">
-            <button class="flex items-center gap-2 border px-3 py-2 rounded-lg text-sm hover:bg-gray-100">
-                ⚙️ Filter
-            </button>
-
-            <button class="flex items-center gap-2 border px-3 py-2 rounded-lg text-sm hover:bg-gray-100">
-                ⬇️ Export
-            </button>
+            <p class="text-sm text-gray-500">Suppliers</p>
+            <h2 class="text-2xl font-bold">12</h2>
         </div>
 
     </div>
@@ -93,171 +44,51 @@
     <div class="bg-white border rounded-xl overflow-hidden">
 
         <table class="w-full text-sm">
-
-            <!-- HEADER -->
-            <thead class="bg-green-50 text-gray-600 text-xs uppercase border-b">
+            <thead class="bg-green-50 text-xs uppercase">
                 <tr>
-                    <th class="p-4 text-left font-semibold">Fertilizer Name</th>
-                    <th class="text-left font-semibold">Supplier</th>
-                    <th class="text-left font-semibold">Price</th>
-                    <th class="text-left font-semibold">Stock Level</th>
-                    <th class="text-left font-semibold">Status</th>
-                    <th class="text-left font-semibold">Actions</th>
+                    <th class="p-4 text-left">Name</th>
+                    <th>Supplier</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
-            <!-- BODY -->
             <tbody>
 
-                <!-- ROW 1 -->
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-4">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-gray-100 p-3 rounded-lg">🌿</div>
-                            <span class="font-medium text-gray-800">Urea Fertilizer</span>
-                        </div>
-                    </td>
-
-                    <td class="text-gray-600">Green Agro</td>
-
-                    <td class="font-semibold text-gray-800">₹500</td>
-
-                    <td>
-                        <span class="text-xs px-3 py-1 rounded-full font-medium bg-green-100 text-green-700">
-                            200 units
-                        </span>
-                    </td>
-
-                    <td>
-                        <div class="flex items-center gap-2 text-xs font-medium text-green-600">
-                            <span class="w-2 h-2 rounded-full bg-green-600"></span>
-                            High Stock
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="flex gap-4 text-gray-400">
-                            ✏️
-                            🗑️
-                        </div>
-                    </td>
+                <tr class="border-t">
+                    <td class="p-4">Urea Fertilizer</td>
+                    <td>Green Agro</td>
+                    <td>₹500</td>
+                    <td><span class="bg-green-100 px-2 py-1 rounded">200</span></td>
+                    <td class="text-green-600">High</td>
+                    <td>✏️ 🗑️</td>
                 </tr>
 
-                <!-- ROW 2 -->
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-4">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-gray-100 p-3 rounded-lg">🌿</div>
-                            <span class="font-medium text-gray-800">Organic Compost</span>
-                        </div>
-                    </td>
-
-                    <td class="text-gray-600">Organic Hub</td>
-
-                    <td class="font-semibold text-gray-800">₹800</td>
-
-                    <td>
-                        <span class="text-xs px-3 py-1 rounded-full font-medium bg-yellow-100 text-yellow-700">
-                            150 units
-                        </span>
-                    </td>
-
-                    <td>
-                        <div class="flex items-center gap-2 text-xs font-medium text-yellow-600">
-                            <span class="w-2 h-2 rounded-full bg-yellow-600"></span>
-                            Moderate
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="flex gap-4 text-gray-400">
-                            ✏️
-                            🗑️
-                        </div>
-                    </td>
+                <tr class="border-t">
+                    <td class="p-4">Organic Compost</td>
+                    <td>Organic Hub</td>
+                    <td>₹800</td>
+                    <td><span class="bg-yellow-100 px-2 py-1 rounded">150</span></td>
+                    <td class="text-yellow-600">Medium</td>
+                    <td>✏️ 🗑️</td>
                 </tr>
 
-                <!-- ROW 3 -->
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-4">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-gray-100 p-3 rounded-lg">💧</div>
-                            <span class="font-medium text-gray-800">Liquid Nitrogen</span>
-                        </div>
-                    </td>
-
-                    <td class="text-gray-600">Chemical Pros</td>
-
-                    <td class="font-semibold text-gray-800">₹1,200</td>
-
-                    <td>
-                        <span class="text-xs px-3 py-1 rounded-full font-medium bg-red-100 text-red-700">
-                            12 units
-                        </span>
-                    </td>
-
-                    <td>
-                        <div class="flex items-center gap-2 text-xs font-medium text-red-600">
-                            <span class="w-2 h-2 rounded-full bg-red-600"></span>
-                            Critical
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="flex gap-4 text-gray-400">
-                            ✏️
-                            🗑️
-                        </div>
-                    </td>
+                <tr class="border-t">
+                    <td class="p-4">Liquid Nitrogen</td>
+                    <td>Chemical Pros</td>
+                    <td>₹1200</td>
+                    <td><span class="bg-red-100 px-2 py-1 rounded">12</span></td>
+                    <td class="text-red-600">Low</td>
+                    <td>✏️ 🗑️</td>
                 </tr>
 
             </tbody>
         </table>
 
-        <!-- PAGINATION -->
-        <div class="flex justify-between items-center p-4 text-sm text-gray-500">
-            <span>Showing 3 of 42 fertilizers</span>
-
-            <div class="flex gap-2">
-                <button class="px-3 py-1 border rounded">1</button>
-                <button class="px-3 py-1 border rounded">2</button>
-                <button class="px-3 py-1 border rounded">3</button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- BOTTOM CARDS -->
-    <div class="grid md:grid-cols-2 gap-6">
-
-        <div class="bg-green-50 border rounded-xl p-6">
-            <div class="flex items-center gap-3 mb-3">
-                ✨
-                <h3 class="font-semibold">Smart Inventory Optimization</h3>
-            </div>
-
-            <p class="text-sm text-gray-600 mb-4">
-                Let our AI analyze your soil reports to suggest the optimal fertilizer restocking levels.
-            </p>
-
-            <button class="text-green-700 text-sm font-medium">
-                Run Analysis →
-            </button>
-        </div>
-
-        <div class="bg-white border rounded-xl p-6">
-            <div class="flex items-center gap-3 mb-3">
-                🖨️
-                <h3 class="font-semibold">Batch Print Labels</h3>
-            </div>
-
-            <p class="text-sm text-gray-600 mb-4">
-                Generate QR labels for warehouse tracking system.
-            </p>
-
-            <button class="border px-4 py-2 rounded-lg text-sm">
-                Generate Labels
-            </button>
+        <div class="p-4 text-sm text-gray-500">
+            Showing 3 items
         </div>
 
     </div>

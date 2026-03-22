@@ -1,0 +1,198 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="p-6 bg-[#f6f8f7] min-h-screen">
+
+    <!-- TITLE -->
+    <h1 class="text-2xl font-semibold text-gray-800">
+        Add New Fertilizer
+    </h1>
+
+    <p class="text-sm text-gray-500 mt-1 mb-6">
+        Fill in the details below to register a new product in the Agri-Mitra ecosystem.
+    </p>
+
+    <!-- MAIN CARD -->
+    <div class="bg-white rounded-2xl border p-8 shadow-sm">
+
+        <form id="fertilizerForm">
+
+            <div class="grid grid-cols-3 gap-8">
+
+                <!-- IMAGE -->
+                <div class="border-2 border-dashed rounded-xl flex flex-col items-center justify-center h-48 text-gray-400">
+                    ⬆️
+                    <p class="text-sm mt-2">Upload Product Image</p>
+                    <span class="text-xs">Square (1:1) recommended</span>
+                </div>
+
+                <!-- FORM -->
+                <div class="col-span-2 grid grid-cols-2 gap-6">
+
+                    <!-- NAME -->
+                    <div>
+                        <label class="text-sm text-gray-600">Fertilizer Name</label>
+                        <input id="name"
+                               class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-gray-50"
+                               placeholder="e.g., Urea Fertilizer" />
+                        <p id="errName" class="text-red-500 text-xs hidden">Required</p>
+                    </div>
+
+                    <!-- SUPPLIER -->
+                    <div>
+                        <label class="text-sm text-gray-600">Supplier</label>
+
+                        <select id="supplier"
+                                class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-gray-50">
+                            <option value="">Select supplier</option>
+                            <option>Green Agro</option>
+                            <option>Organic Hub</option>
+                            <option>Chemical Pros</option>
+                        </select>
+
+                        <p id="errSupplier" class="text-red-500 text-xs hidden">Required</p>
+                    </div>
+
+                    <!-- PRICE -->
+                    <div>
+                        <label class="text-sm text-gray-600">Price (INR)</label>
+                        <input id="price" type="number"
+                               class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-gray-50"
+                               placeholder="₹ 0.00" />
+                        <p id="errPrice" class="text-red-500 text-xs hidden">Invalid</p>
+                    </div>
+
+                    <!-- STOCK -->
+                    <div>
+                        <label class="text-sm text-gray-600">Initial Stock</label>
+                        <input id="stock" type="number"
+                               class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-gray-50"
+                               placeholder="e.g., 200" />
+                        <p id="errStock" class="text-red-500 text-xs hidden">Required</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STOCK PREVIEW -->
+            <div class="mt-8">
+                <p class="text-xs text-gray-400 mb-3">REAL-TIME STOCK PREVIEW</p>
+
+                <div class="flex gap-4">
+
+                    <div class="flex-1 border rounded-xl p-4 text-center bg-green-50 border-green-200">
+                        <div class="w-2 h-2 bg-green-600 rounded-full mx-auto mb-2"></div>
+                        <p class="text-green-700 text-sm font-semibold">HIGH STOCK</p>
+                        <p class="text-xs text-gray-400">&gt; 150 units</p>
+                    </div>
+
+                    <div class="flex-1 border rounded-xl p-4 text-center">
+                        <div class="w-2 h-2 bg-orange-400 rounded-full mx-auto mb-2"></div>
+                        <p class="text-orange-500 text-sm font-semibold">MODERATE</p>
+                        <p class="text-xs text-gray-400">50 - 150 units</p>
+                    </div>
+
+                    <div class="flex-1 border rounded-xl p-4 text-center">
+                        <div class="w-2 h-2 bg-red-400 rounded-full mx-auto mb-2"></div>
+                        <p class="text-red-500 text-sm font-semibold">CRITICAL</p>
+                        <p class="text-xs text-gray-400">&lt; 50 units</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="flex justify-end items-center gap-6 mt-10">
+
+                <a href="/Admin/Fertilizers"
+                   class="text-gray-500 text-sm">
+                    Cancel
+                </a>
+
+                <button type="button"
+                        onclick="submitForm()"
+                        class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg shadow-md text-sm">
+                    + Add Fertilizer
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+    <!-- TABLE -->
+    <div class="mt-10">
+
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-semibold text-gray-800">Recent Additions</h3>
+        </div>
+
+        <div class="bg-white rounded-xl border overflow-hidden">
+
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
+                    <tr>
+                        <th class="p-4 text-left">Name</th>
+                        <th>Supplier</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- JS -->
+<script>
+    function submitForm() {
+
+        let name = document.getElementById("name").value;
+        let supplier = document.getElementById("supplier").value;
+        let price = document.getElementById("price").value;
+        let stock = document.getElementById("stock").value;
+
+        let valid = true;
+
+        // Reset errors
+        document.querySelectorAll("p[id^='err']").forEach(e => e.classList.add("hidden"));
+
+        if (!name) { document.getElementById("errName").classList.remove("hidden"); valid = false; }
+        if (!supplier) { document.getElementById("errSupplier").classList.remove("hidden"); valid = false; }
+        if (!price || price <= 0) { document.getElementById("errPrice").classList.remove("hidden"); valid = false; }
+        if (!stock) { document.getElementById("errStock").classList.remove("hidden"); valid = false; }
+
+        if (!valid) return;
+
+        let status = stock > 150 ? "High Stock" : stock > 50 ? "Moderate" : "Critical";
+        let color = stock > 150 ? "green" : stock > 50 ? "orange" : "red";
+
+        let row = `
+        <tr class="border-t">
+            <td class="p-4 font-medium">${name}</td>
+            <td>${supplier}</td>
+            <td class="font-semibold">₹${price}</td>
+            <td>
+                <span class="bg-${color}-100 text-${color}-700 px-3 py-1 rounded-full text-xs">
+                    ${stock} units
+                </span>
+            </td>
+            <td class="text-${color}-600">● ${status}</td>
+        </tr>
+        `;
+
+        document.getElementById("tableBody").innerHTML += row;
+
+        alert("Fertilizer Added Successfully ✅");
+
+        document.getElementById("fertilizerForm").reset();
+    }
+</script>
