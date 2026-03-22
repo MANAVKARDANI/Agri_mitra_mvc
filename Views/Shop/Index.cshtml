@@ -26,46 +26,30 @@
 
                 @foreach (var shop in Model.Shops)
                 {
-                    <div class="relative bg-[#EFEFEF] rounded-2xl p-4
-                        transition-all duration-500 ease-[cubic-bezier(.25,.8,.25,1)]
-                        hover:-translate-y-3 hover:shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-                        hover:shadow-green-200/50
-                        group cursor-pointer overflow-hidden">
+                    <div class="relative bg-[#EFEFEF] rounded-2xl p-4 group">
 
-                        <!-- Gradient Glow -->
-                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500
-                            bg-gradient-to-br from-green-100/40 via-transparent to-yellow-100/40"></div>
-
-                        <!-- IMAGE -->
                         <div class="relative rounded-xl overflow-hidden">
                             <img src="@shop.Image"
-                                 class="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110" />
+                                 class="w-full h-48 object-cover" />
 
                             @if (shop.Verified)
                             {
-                                <div class="absolute top-3 right-3 bg-white text-green-700 text-xs px-3 py-1 rounded-full shadow-md">
+                                <div class="absolute top-3 right-3 bg-white text-green-700 text-xs px-3 py-1 rounded-full">
                                     Verified
                                 </div>
                             }
                         </div>
 
-                        <!-- TEXT -->
-                        <div class="mt-4 relative z-10">
-                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-green-800 transition">
-                                @shop.Name
-                            </h3>
+                        <div class="mt-4">
+                            <h3 class="font-bold text-lg">@shop.Name</h3>
+                            <p class="text-sm text-gray-500">@shop.Address</p>
 
-                            <p class="text-sm text-gray-500 mt-1">@shop.Address</p>
-
+                            <!-- ✅ FIXED LINK -->
                             <a asp-controller="Shop"
                                asp-action="Details"
                                asp-route-id="@shop.Id"
-                               class="inline-flex items-center gap-1 text-green-700 font-semibold text-sm mt-4
-                                   transition-all duration-300 group-hover:gap-3">
-                                VIEW DETAILS
-                                <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition">
-                                    arrow_forward
-                                </span>
+                               class="text-green-700 font-semibold text-sm mt-4 inline-block">
+                                VIEW DETAILS →
                             </a>
                         </div>
                     </div>
@@ -75,20 +59,15 @@
 
             <!-- PAGINATION -->
             <div class="flex justify-center mt-12 gap-3">
-
                 @for (int i = 1; i <= Model.TotalPages; i++)
                 {
                     <a asp-action="Index" asp-route-page="@i"
-                       class="px-4 py-2 rounded-md transition @(Model.CurrentPage == i
-                                               ? "bg-green-700 text-white"
-                                               : "bg-white border hover:bg-gray-100")">
-                    @i
-                </a>
-                                }
-
+                       class="px-4 py-2 @(Model.CurrentPage == i ? "bg-green-700 text-white" : "bg-white border")">
+                        @i
+                    </a>
+                }
             </div>
 
         </div>
     </section>
-
 </div>

@@ -5,19 +5,10 @@ using System.Linq;
 
 public class ShopController : Controller
 {
+    // ================= SHOP LIST =================
     public IActionResult Index(int page = 1)
     {
-        var shops = new List<Shop>
-        {
-            new Shop { Id="farma-fer", Name="Farma Fer", Image="/images/Farma Fer.png", Address="124 Agri Lane", Verified=true },
-            new Shop { Id="valley-fertilizers", Name="Valley Fertilizers", Image="/images/Valley Fertilizers.png", Address="88 Farm Road", Verified=true },
-            new Shop { Id="eco-crop", Name="EcoCrop Solutions", Image="/images/EcoCrop Solutions.png", Address="45 Sustainable Way", Verified=true },
-            new Shop { Id="growers-choice", Name="Growers Choice", Image="/images/Growers Choice.png", Address="22 Plantation Drive", Verified=false },
-            new Shop { Id="natures-best", Name="Nature's Best Agri", Image="/images/Nature's Best Agri.png", Address="78 Organic Blvd", Verified=false },
-            new Shop { Id="modern-farmer", Name="Modern Farmer Supply", Image="/images/Modern Farmer Supply.png", Address="101 Innovation Road", Verified=true },
-            new Shop { Id="plant-power", Name="Plant Power Store", Image="/images/Plant Power Store.png", Address="33 Green Avenue", Verified=false },
-            new Shop { Id="root-shoot", Name="Root & Shoot Suppliers", Image="/images/Root & Shoot Suppliers.png", Address="56 Growth Street", Verified=false }
-        };
+        var shops = GetShops();
 
         int pageSize = 8;
 
@@ -36,13 +27,34 @@ public class ShopController : Controller
         return View(model);
     }
 
-    // ✅ FIXED METHOD
-    public IActionResult ShopDetails(string name, string image, string address)
+    // ================= SHOP DETAILS =================
+    public IActionResult Details(string id)
     {
-        ViewBag.ShopName = name;
-        ViewBag.ShopImage = image;
-        ViewBag.ShopAddress = address;
+        var shop = GetShops().FirstOrDefault(s => s.Id == id);
 
-        return View();
+        if (shop == null)
+            return NotFound();
+
+        ViewBag.ShopName = shop.Name;
+        ViewBag.ShopImage = shop.Image;
+        ViewBag.ShopAddress = shop.Address;
+
+        return View("ShopDetails");
+    }
+
+    // ================= STATIC DATA =================
+    private List<Shop> GetShops()
+    {
+        return new List<Shop>
+        {
+            new Shop { Id="farma-fer", Name="Farma Fer", Image="/images/Farma Fer.png", Address="124 Agri Lane", Verified=true },
+            new Shop { Id="valley-fertilizers", Name="Valley Fertilizers", Image="/images/Valley Fertilizers.png", Address="88 Farm Road", Verified=true },
+            new Shop { Id="eco-crop", Name="EcoCrop Solutions", Image="/images/EcoCrop Solutions.png", Address="45 Sustainable Way", Verified=true },
+            new Shop { Id="growers-choice", Name="Growers Choice", Image="/images/Growers Choice.png", Address="22 Plantation Drive", Verified=false },
+            new Shop { Id="natures-best", Name="Nature's Best Agri", Image="/images/Nature's Best Agri.png", Address="78 Organic Blvd", Verified=false },
+            new Shop { Id="modern-farmer", Name="Modern Farmer Supply", Image="/images/Modern Farmer Supply.png", Address="101 Innovation Road", Verified=true },
+            new Shop { Id="plant-power", Name="Plant Power Store", Image="/images/Plant Power Store.png", Address="33 Green Avenue", Verified=false },
+            new Shop { Id="root-shoot", Name="Root & Shoot Suppliers", Image="/images/Root & Shoot Suppliers.png", Address="56 Growth Street", Verified=false }
+        };
     }
 }

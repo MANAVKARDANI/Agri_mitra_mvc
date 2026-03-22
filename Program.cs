@@ -1,14 +1,27 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-// Add services
+var builder = WebApplication.CreateBuilder(args);
+
+// ================= SERVICES =================
+
+// Add MVC
 builder.Services.AddControllersWithViews();
 
-// ✅ ADD THIS
-builder.Services.AddSession();
+// ✅ Add Session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Middleware
+// ================= MIDDLEWARE =================
+
+// Error handling
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -20,14 +33,23 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ✅ ADD THIS (VERY IMPORTANT)
+// ✅ Enable Session (IMPORTANT - before Authorization)
 app.UseSession();
 
 app.UseAuthorization();
 
-// Default route
+// ================= ROUTING =================
+
+// ✅ DEFAULT ROUTE (Login page first)
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
+
+// ✅ OPTIONAL: FIX FOR /Shop/Details/{id}
+app.MapControllerRoute(
+    name: "shopDetails",
+    pattern: "Shop/Details/{id}",
+    defaults: new { controller = "Shop", action = "Details" }
+);
 
 app.Run();
