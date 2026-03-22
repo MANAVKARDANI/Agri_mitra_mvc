@@ -1,32 +1,27 @@
-using System.Diagnostics;
-using Agri_mitra.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Agri_mitra.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    public IActionResult Index()
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        var model = new HomeViewModel
         {
-            _logger = logger;
-        }
+            Products = new List<Product>
+            {
+                new Product { Image = "/images/nitrogen.png", Title = "Nitrogen Series", Description = "Rapid vegetative growth." },
+                new Product { Image = "/images/Phosphorus.png", Title = "Phosphorus Boost", Description = "Robust root systems." },
+                new Product { Image = "/images/Potassium.png", Title = "Potassium Shield", Description = "Disease resistance." }
+            },
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+            FeaturedProducts = new List<FeaturedProduct>
+            {
+                new FeaturedProduct { Image = "/images/Bio dap.png", Name = "Bio DAP", Description = "Organic Compound" },
+                new FeaturedProduct { Image = "/images/potash.png", Name = "Potash", Description = "Potassium Rich" },
+                new FeaturedProduct { Image = "/images/UREA.png", Name = "Urea", Description = "High Nitrogen" },
+                new FeaturedProduct { Image = "/images/Calcium Nitrate.png", Name = "Calcium Nitrate", Description = "Soluble Grade" }
+            }
+        };
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View(model);
     }
 }

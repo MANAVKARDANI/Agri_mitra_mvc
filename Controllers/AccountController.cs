@@ -2,7 +2,7 @@
 
 public class AccountController : Controller
 {
-    // LOGIN
+    // ================= LOGIN =================
     public IActionResult Login()
     {
         return View();
@@ -14,6 +14,10 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             string adminEmail = "admin@gmail.com";
+
+            // ✅ STORE SESSION (IMPORTANT)
+            HttpContext.Session.SetString("UserEmail", model.Email);
+            HttpContext.Session.SetString("UserRole", model.Role);
 
             if (model.Role == "Admin" && model.Email == adminEmail)
             {
@@ -35,7 +39,7 @@ public class AccountController : Controller
         return View(model);
     }
 
-    // REGISTER
+    // ================= REGISTER =================
     public IActionResult Register()
     {
         return View();
@@ -46,13 +50,12 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            // Save logic here (DB later)
             return RedirectToAction("Login");
         }
         return View(model);
     }
 
-    // FORGOT PASSWORD
+    // ================= FORGOT PASSWORD =================
     public IActionResult ForgotPassword()
     {
         return View();
@@ -66,5 +69,16 @@ public class AccountController : Controller
             ViewBag.Message = "Reset link sent to your email!";
         }
         return View(model);
+    }
+
+    // ================= LOGOUT =================
+    [HttpPost]
+    public IActionResult Logout()
+    {
+        // ✅ CLEAR SESSION
+        HttpContext.Session.Clear();
+
+        // ✅ REDIRECT TO LOGIN
+        return RedirectToAction("Login", "Account");
     }
 }

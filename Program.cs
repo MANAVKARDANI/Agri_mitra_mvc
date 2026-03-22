@@ -1,11 +1,14 @@
 ﻿var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services
 builder.Services.AddControllersWithViews();
+
+// ✅ ADD THIS
+builder.Services.AddSession();
 
 var app = builder.Build();
 
-// Configure middleware pipeline
+// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -17,9 +20,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// ✅ ADD THIS (VERY IMPORTANT)
+app.UseSession();
+
 app.UseAuthorization();
 
-// ✅ CHANGE DEFAULT ROUTE HERE
+// Default route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
