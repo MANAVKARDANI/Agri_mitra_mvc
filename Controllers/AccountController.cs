@@ -83,9 +83,11 @@ public class AccountController : Controller
     // ================= PROFILE =================
     public IActionResult Profile()
     {
-        // Get from session
-        ViewBag.Name = HttpContext.Session.GetString("UserEmail") ?? "User";
-        ViewBag.Email = HttpContext.Session.GetString("UserEmail") ?? "user@gmail.com";
+        // No DB used
+        ViewBag.Email = User.Identity.Name;
+
+        // Optional: name from email
+        ViewBag.Name = User.Identity.Name?.Split('@')[0];
 
         return View();
     }
