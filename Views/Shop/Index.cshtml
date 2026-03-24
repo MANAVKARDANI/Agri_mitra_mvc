@@ -16,6 +16,67 @@
                 </p>
             </div>
         </div>
+
+        <!-- 🔥 FILTER (NO DESIGN CHANGE) -->
+        <div class="absolute bottom-[-60px] w-full flex justify-center px-4">
+            <form method="get" class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-4xl">
+
+                <h2 class="text-center font-semibold mb-4">
+                    Find Local Suppliers
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-4">
+
+                    <!-- STATE -->
+                    <select name="state" onchange="this.form.submit()"
+                            class="p-3 border rounded-lg bg-gray-100">
+                        <option value="">Select State</option>
+
+                        @foreach (var s in Model.LocationData.Keys)
+                        {
+                            <option value="@s" selected="@(Model.State == s)">
+                                @s
+                            </option>
+                        }
+                    </select>
+
+                    <!-- DISTRICT -->
+                    <select name="district" onchange="this.form.submit()"
+                            class="p-3 border rounded-lg bg-gray-100">
+
+                        <option value="">Select District</option>
+
+                        @if (Model.State != null)
+                        {
+                            foreach (var d in Model.LocationData[Model.State].Keys)
+                            {
+                                <option value="@d" selected="@(Model.District == d)">
+                                    @d
+                                </option>
+                            }
+                        }
+                    </select>
+
+                    <!-- CITY -->
+                    <select name="city" onchange="this.form.submit()"
+                            class="p-3 border rounded-lg bg-gray-100">
+
+                        <option value="">Select City</option>
+
+                        @if (Model.State != null && Model.District != null)
+                        {
+                            foreach (var c in Model.LocationData[Model.State][Model.District])
+                            {
+                                <option value="@c" selected="@(Model.City == c)">
+                                    @c
+                                </option>
+                            }
+                        }
+                    </select>
+
+                </div>
+            </form>
+        </div>
     </section>
 
     <!-- SHOP GRID -->
@@ -24,35 +85,43 @@
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
-                @foreach (var shop in Model.Shops)
+                @if (Model.Shops.Any())
                 {
-                    <div class="relative bg-[#EFEFEF] rounded-2xl p-4 group">
+                    foreach (var shop in Model.Shops)
+                    {
+                        <div class="relative bg-[#EFEFEF] rounded-2xl p-4 group">
 
-                        <div class="relative rounded-xl overflow-hidden">
-                            <img src="@shop.Image"
-                                 class="w-full h-48 object-cover" />
+                            <div class="relative rounded-xl overflow-hidden">
+                                <img src="@shop.Image"
+                                     class="w-full h-48 object-cover" />
 
-                            @if (shop.Verified)
-                            {
-                                <div class="absolute top-3 right-3 bg-white text-green-700 text-xs px-3 py-1 rounded-full">
-                                    Verified
-                                </div>
-                            }
+                                @if (shop.Verified)
+                                {
+                                    <div class="absolute top-3 right-3 bg-white text-green-700 text-xs px-3 py-1 rounded-full">
+                                        Verified
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="mt-4">
+                                <h3 class="font-bold text-lg">@shop.Name</h3>
+                                <p class="text-sm text-gray-500">@shop.Address</p>
+
+                                <a asp-controller="Shop"
+                                   asp-action="Details"
+                                   asp-route-id="@shop.Id"
+                                   class="text-green-700 font-semibold text-sm mt-4 inline-block">
+                                    VIEW DETAILS →
+                                </a>
+                            </div>
                         </div>
-
-                        <div class="mt-4">
-                            <h3 class="font-bold text-lg">@shop.Name</h3>
-                            <p class="text-sm text-gray-500">@shop.Address</p>
-
-                            <!-- ✅ FIXED LINK -->
-                            <a asp-controller="Shop"
-                               asp-action="Details"
-                               asp-route-id="@shop.Id"
-                               class="text-green-700 font-semibold text-sm mt-4 inline-block">
-                                VIEW DETAILS →
-                            </a>
-                        </div>
-                    </div>
+                    }
+                }
+                else
+                {
+                    <p class="col-span-4 text-center text-gray-500">
+                        No suppliers found 😔
+                    </p>
                 }
 
             </div>
@@ -61,7 +130,11 @@
             <div class="flex justify-center mt-12 gap-3">
                 @for (int i = 1; i <= Model.TotalPages; i++)
                 {
-                    <a asp-action="Index" asp-route-page="@i"
+                    <a asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-state="@Model.State"
+                       asp-route-district="@Model.District"
+                       asp-route-city="@Model.City"
                        class="px-4 py-2 @(Model.CurrentPage == i ? "bg-green-700 text-white" : "bg-white border")">
                         @i
                     </a>

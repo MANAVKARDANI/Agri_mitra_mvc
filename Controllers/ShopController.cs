@@ -2,15 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri_mitra.Models;
 
-namespace YourProjectName.Controllers   // 🔁 Replace with your project namespace
+namespace Agri_mitra.Controllers
 {
     public class ShopController : Controller
     {
-        // ================= SHOP LIST =================
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(string state, string district, string city, int page = 1)
         {
             var shops = GetShops();
+
+            // 🔥 FILTER
+            if (!string.IsNullOrEmpty(state))
+                shops = shops.Where(s => s.State == state).ToList();
+
+            if (!string.IsNullOrEmpty(district))
+                shops = shops.Where(s => s.District == district).ToList();
+
+            if (!string.IsNullOrEmpty(city))
+                shops = shops.Where(s => s.City == city).ToList();
 
             int pageSize = 8;
 
@@ -22,6 +32,13 @@ namespace YourProjectName.Controllers   // 🔁 Replace with your project namesp
             var model = new ShopViewModel
             {
                 Shops = pagedData,
+
+                // ✅ IMPORTANT FIX
+                State = state,
+                District = district,
+                City = city,
+
+                LocationData = GetLocations(),
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(shops.Count / (double)pageSize)
             };
@@ -29,8 +46,6 @@ namespace YourProjectName.Controllers   // 🔁 Replace with your project namesp
             return View(model);
         }
 
-        // ================= SHOP DETAILS =================
-        // URL: /Shop/Details/farma-fer
         public IActionResult Details(string id)
         {
             var shop = GetShops().FirstOrDefault(s => s.Id == id);
@@ -38,48 +53,44 @@ namespace YourProjectName.Controllers   // 🔁 Replace with your project namesp
             if (shop == null)
                 return NotFound();
 
-            ViewBag.ShopName = shop.Name;
-            ViewBag.ShopImage = shop.Image;
-            ViewBag.ShopAddress = shop.Address;
-
-            return View("ShopDetails"); // must match file name
+            return View(shop);
         }
 
-        // ================= PRODUCT DETAILS =================
-        // URL: /Shop/ProductDetails
-        public IActionResult ProductDetails(string name, int price, int qty)
+        private Dictionary<string, Dictionary<string, List<string>>> GetLocations()
         {
-            ViewBag.Name = name ?? "Potash";
-            ViewBag.Price = price == 0 ? 499 : price;
-            ViewBag.Quantity = qty == 0 ? 1 : qty;
-
-            return View();
+            return new Dictionary<string, Dictionary<string, List<string>>>
+            {
+                ["Gujarat"] = new Dictionary<string, List<string>>
+                {
+                    ["Rajkot"] = new List<string> { "Rajkot City", "Gondal" },
+                    ["Ahmedabad"] = new List<string> { "Ahmedabad City", "Sanand" },
+                    ["Surat"] = new List<string> { "Surat City", "Bardoli" }
+                },
+                ["Maharashtra"] = new Dictionary<string, List<string>>
+                {
+                    ["Pune"] = new List<string> { "Pune City", "Hinjewadi" },
+                    ["Mumbai"] = new List<string> { "Andheri", "Borivali" }
+                },
+                ["Rajasthan"] = new Dictionary<string, List<string>>
+                {
+                    ["Jaipur"] = new List<string> { "Jaipur City" },
+                    ["Udaipur"] = new List<string> { "Udaipur City" }
+                }
+            };
         }
 
-        // ================= BILLING =================
-        // URL: /Shop/Billing?name=Potash&price=499&qty=1
-        public IActionResult Billing(string name, int price, int qty)
-        {
-            ViewBag.Name = name ?? "Potash";
-            ViewBag.Price = price == 0 ? 499 : price;
-            ViewBag.Quantity = qty == 0 ? 1 : qty;
-
-            return View();
-        }
-
-        // ================= STATIC DATA =================
         private List<Shop> GetShops()
         {
             return new List<Shop>
             {
-                new Shop { Id="farma-fer", Name="Farma Fer", Image="/images/Farma Fer.png", Address="124 Agri Lane", Verified=true },
-                new Shop { Id="valley-fertilizers", Name="Valley Fertilizers", Image="/images/Valley Fertilizers.png", Address="88 Farm Road", Verified=true },
-                new Shop { Id="eco-crop", Name="EcoCrop Solutions", Image="/images/EcoCrop Solutions.png", Address="45 Sustainable Way", Verified=true },
-                new Shop { Id="growers-choice", Name="Growers Choice", Image="/images/Growers Choice.png", Address="22 Plantation Drive", Verified=false },
-                new Shop { Id="natures-best", Name="Nature's Best Agri", Image="/images/Nature's Best Agri.png", Address="78 Organic Blvd", Verified=false },
-                new Shop { Id="modern-farmer", Name="Modern Farmer Supply", Image="/images/Modern Farmer Supply.png", Address="101 Innovation Road", Verified=true },
-                new Shop { Id="plant-power", Name="Plant Power Store", Image="/images/Plant Power Store.png", Address="33 Green Avenue", Verified=false },
-                new Shop { Id="root-shoot", Name="Root & Shoot Suppliers", Image="/images/Root & Shoot Suppliers.png", Address="56 Growth Street", Verified=false }
+                new Shop { Id="farma-fer", Name="Farma Fer", Image="/images/Farma Fer.png", Address="Rajkot, Gujarat", State="Gujarat", District="Rajkot", City="Rajkot City", Verified=true },
+                new Shop { Id="valley", Name="Valley Fertilizers", Image="/images/Valley Fertilizers.png", Address="Ahmedabad, Gujarat", State="Gujarat", District="Ahmedabad", City="Ahmedabad City", Verified=true },
+                new Shop { Id="eco", Name="EcoCrop Solutions", Image="/images/EcoCrop Solutions.png", Address="Surat, Gujarat", State="Gujarat", District="Surat", City="Surat City", Verified=true },
+                new Shop { Id="growers", Name="Growers Choice", Image="/images/Growers Choice.png", Address="Pune, Maharashtra", State="Maharashtra", District="Pune", City="Pune City", Verified=false },
+                new Shop { Id="nature", Name="Nature's Best Agri", Image="/images/Nature's Best Agri.png", Address="Mumbai, Maharashtra", State="Maharashtra", District="Mumbai", City="Andheri", Verified=false },
+                new Shop { Id="modern", Name="Modern Farmer Supply", Image="/images/Modern Farmer Supply.png", Address="Jaipur, Rajasthan", State="Rajasthan", District="Jaipur", City="Jaipur City", Verified=true },
+                new Shop { Id="plant", Name="Plant Power Store", Image="/images/Plant Power Store.png", Address="Udaipur, Rajasthan", State="Rajasthan", District="Udaipur", City="Udaipur City", Verified=false },
+                new Shop { Id="root", Name="Root & Shoot Suppliers", Image="/images/Root & Shoot Suppliers.png", Address="Rajkot, Gujarat", State="Gujarat", District="Rajkot", City="Gondal", Verified=false }
             };
         }
     }
